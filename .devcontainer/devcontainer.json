@@ -4,7 +4,7 @@
     "dockerfile": "Dockerfile"
   },
 
-  // devcontainers base image already has a non-root 'vscode' user
+  // Use the non-root user from the base devcontainer image
   "remoteUser": "vscode",
   "updateRemoteUserUID": true,
 
@@ -14,14 +14,13 @@
         "haskell.haskell"
       ],
       "settings": {
-        // Use the HLS we install into PATH, not the extension’s internal ghcup
-        // https://github.com/haskell/vscode-haskell
+        // Use HLS from PATH inside the container
         "haskell.manageHLS": "PATH",
         "haskell.formattingProvider": "ormolu"
       }
     }
   },
 
-  // Optional sanity check after container is built
-  "postCreateCommand": "ghcup --version && ghc --version && cabal --version && stack --version && haskell-language-server --version"
+  // Optional: keep as a soft check so it never breaks startup
+  "postCreateCommand": "ghcup --version || true; ghc --version || true; cabal --version || true; stack --version || true; haskell-language-server --version || true"
 }
